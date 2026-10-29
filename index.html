@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lukáš Razim – Salesforce Consultant</title>
+<meta name="description" content="Lukáš Razim – Salesforce Consultant with 10+ years of full-lifecycle implementations across Sales, Service and Experience Cloud.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --surface: #ffffff;
+    --side: #dce6f2;
+    --text: #1b2433;
+    --muted: #5a6779;
+    --accent: #0b6fbf;
+    --accent-2: #00a1e0;
+    --accent-soft: rgba(11, 111, 191, .1);
+    --border: #e1e8f0;
+    --shadow: 0 10px 30px rgba(20, 40, 80, .08);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1420;
+    --surface: #161e2d;
+    --side: #121a28;
+    --text: #e6ecf5;
+    --muted: #9aa8bb;
+    --accent: #4fb3ff;
+    --accent-2: #00c2ff;
+    --accent-soft: rgba(79, 179, 255, .12);
+    --border: #243045;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1420;
+      --surface: #161e2d;
+      --side: #121a28;
+      --text: #e6ecf5;
+      --muted: #9aa8bb;
+      --accent: #4fb3ff;
+      --accent-2: #00c2ff;
+      --accent-soft: rgba(79, 179, 255, .12);
+      --border: #243045;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background .3s, color .3s;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    position: fixed; inset: 0 0 auto 0; z-index: 20;
+    display: flex; justify-content: flex-end; gap: 8px;
+    padding: 12px 16px;
+    pointer-events: none;
+  }
+  .topbar > * { pointer-events: auto; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: 500 13px/1 "Inter", sans-serif;
+    padding: 9px 14px; border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface); color: var(--text);
+    box-shadow: var(--shadow);
+    cursor: pointer; text-decoration: none;
+    transition: transform .15s, border-color .15s;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: var(--accent); text-decoration: none; }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn svg { width: 15px; height: 15px; }
+  .progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 30;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+
+  /* ---------- Layout ---------- */
+  .page {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: 340px 1fr;
+    min-height: 100vh;
+  }
+  aside {
+    background: var(--side);
+    padding: 72px 32px 40px;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  main { padding: 72px 56px 64px; background: var(--surface); }
+
+  /* ---------- Sidebar ---------- */
+  .avatar {
+    width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%;
+    padding: 4px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    position: relative;
+  }
+  .avatar img, .avatar .initials {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+    border: 4px solid var(--side);
+  }
+  .avatar img { object-position: 50% 40%; }
+  .avatar .initials {
+    display: grid; place-items: center;
+    background: var(--surface); color: var(--accent);
+    font-size: 48px; font-weight: 800; letter-spacing: -1px;
+  }
+  .contact { list-style: none; padding: 0; margin: 0 0 28px; }
+  .contact li { margin: 8px 0; }
+  .contact a, .contact span {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--text); font-size: 14px; word-break: break-all;
+  }
+  .contact svg { width: 16px; height: 16px; flex: none; color: var(--accent); }
+  .contact button {
+    margin-left: auto; border: 0; background: none; color: var(--muted);
+    cursor: pointer; font-size: 12px; padding: 2px 6px; border-radius: 6px;
+  }
+  .contact button:hover { background: var(--accent-soft); color: var(--accent); }
+
+  aside h3 {
+    font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin: 28px 0 12px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-size: 12.5px; padding: 5px 10px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  }
+  .cert-group { margin-bottom: 14px; }
+  .cert-group summary {
+    cursor: pointer; font-weight: 600; font-size: 14px; list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 0;
+  }
+  .cert-group summary::-webkit-details-marker { display: none; }
+  .cert-group summary .count {
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); padding: 2px 8px; border-radius: 999px;
+  }
+  .cert-group summary::after { content: "▾"; color: var(--muted); margin-left: 8px; transition: transform .2s; }
+  .cert-group:not([open]) summary::after { transform: rotate(-90deg); }
+  .cert-group ul { list-style: none; margin: 4px 0 0; padding: 0; }
+  .cert-group li {
+    font-size: 13.5px; padding: 5px 0 5px 22px; position: relative; color: var(--text);
+  }
+  .cert-group li::before {
+    content: ""; position: absolute; left: 4px; top: 11px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .lang { display: flex; justify-content: space-between; font-size: 14px; margin: 6px 0 2px; }
+  .lang span:last-child { color: var(--muted); font-size: 12.5px; }
+  .bar { height: 6px; border-radius: 99px; background: var(--border); overflow: hidden; margin-bottom: 10px; }
+  .bar i {
+    display: block; height: 100%; width: 0; border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 1.2s cubic-bezier(.2, .8, .2, 1);
+  }
+
+  /* ---------- Main ---------- */
+  .eyebrow {
+    display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); padding: 5px 12px; border-radius: 999px;
+  }
+  h1 {
+    font-size: clamp(36px, 5vw, 54px); line-height: 1.05; letter-spacing: -.03em;
+    margin: 14px 0 8px; font-weight: 800;
+  }
+  .role { font-size: 20px; color: var(--muted); margin: 0 0 22px; min-height: 1.6em; }
+  .role .cursor { display: inline-block; width: 2px; height: 1em; background: var(--accent); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .summary { font-size: 16px; max-width: 70ch; }
+  .summary strong { color: var(--accent); font-weight: 600; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 32px 0 8px;
+  }
+  .stat {
+    border: 1px solid var(--border); border-radius: 14px; padding: 16px;
+    background: var(--bg);
+  }
+  .stat b { display: block; font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: -.02em; }
+  .stat span { font-size: 12.5px; color: var(--muted); }
+
+  section { margin-top: 48px; }
+  h2 {
+    font-size: 22px; font-weight: 700; margin: 0 0 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+  .job { position: relative; padding-left: 28px; margin-bottom: 32px; }
+  .job::before {
+    content: ""; position: absolute; left: 6px; top: 10px; bottom: -32px; width: 2px;
+    background: linear-gradient(var(--accent), transparent);
+  }
+  .job:last-child::before { bottom: 0; }
+  .job::after {
+    content: ""; position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--surface); border: 3px solid var(--accent);
+  }
+  .job-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .job-head h4 { margin: 0; font-size: 18px; font-weight: 700; }
+  .job-head .org { color: var(--accent); font-weight: 500; font-size: 14.5px; }
+  .dates {
+    font-size: 12.5px; font-weight: 600; color: var(--muted);
+    border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .job p { margin: 10px 0 0; font-size: 15px; }
+  .job p b { color: var(--accent); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 14px; }
+  .filter {
+    font: 500 12.5px/1 "Inter", sans-serif; padding: 7px 12px; border-radius: 999px;
+    border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer;
+    transition: all .15s;
+  }
+  .filter:hover { border-color: var(--accent); color: var(--accent); }
+  .filter.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .project {
+    border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px;
+    background: var(--bg); cursor: pointer;
+    transition: transform .2s, box-shadow .2s, border-color .2s, opacity .25s;
+  }
+  .project:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--accent); }
+  .project.hidden { display: none; }
+  .project .top { display: flex; gap: 12px; align-items: flex-start; }
+  .project .ico {
+    flex: none; width: 36px; height: 36px; border-radius: 10px;
+    display: grid; place-items: center; font-size: 18px;
+    background: var(--accent-soft);
+  }
+  .project h5 { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .project .lead { margin: 3px 0 0; font-size: 13px; color: var(--muted); }
+  .project .more {
+    display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease;
+  }
+  .project .more > div { overflow: hidden; }
+  .project.open .more { grid-template-rows: 1fr; }
+  .project .more p { margin: 12px 0 8px; font-size: 14px; }
+  .project .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .project .tags span {
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); padding: 3px 8px; border-radius: 6px;
+  }
+  .project .toggle { font-size: 12px; color: var(--accent); margin-top: 8px; display: inline-block; }
+
+  .edu { display: grid; gap: 12px; }
+  .edu-card {
+    border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; background: var(--bg);
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .edu-card h4 { margin: 0; font-size: 16px; }
+  .edu-card p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+  .community {
+    border-radius: 16px; padding: 22px 24px; color: #fff;
+    background: linear-gradient(135deg, #0b6fbf, #00a1e0);
+    display: flex; gap: 18px; align-items: center;
+  }
+  .community .big { font-size: 34px; }
+  .community h4 { margin: 0 0 4px; font-size: 17px; }
+  .community p { margin: 0; font-size: 14px; opacity: .92; }
+
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px);
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px;
+    font-size: 13px; opacity: 0; transition: all .25s; pointer-events: none; z-index: 40;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; }
+    aside { position: static; height: auto; padding: 72px 16px 24px; }
+    main { padding: 32px 16px 48px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .projects { grid-template-columns: 1fr; }
+    .topbar .label { display: none; }
+  }
+
+  /* ---------- Print ---------- */
+  @media print {
+    .topbar, .progress, .filters, .toast, .project .toggle, .contact button { display: none !important; }
+    body { background: #fff; color: #000; }
+    .page { grid-template-columns: 260px 1fr; }
+    aside { position: static; height: auto; padding: 24px 18px; }
+    main { padding: 24px 28px; }
+    .reveal { opacity: 1; transform: none; }
+    .project { break-inside: avoid; }
+    .project .more { grid-template-rows: 1fr; }
+    .project.hidden { display: block; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+  <a class="btn primary" href="resume-ats.html" title="Plain, single-column version, easy to print and read by Applicant Tracking Systems">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8M8 9h2"/></svg>
+    <span>Print-friendly <span class="label">version</span></span>
+  </a>
+  <button class="btn" id="themeBtn" type="button" aria-label="Toggle dark mode">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+</div>
+
+<div class="page">
+  <!-- ================= SIDEBAR ================= -->
+  <aside>
+    <div class="avatar">
+      <img src="photo.png" alt="Lukáš Razim" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'initials',textContent:'LR'}))">
+    </div>
+
+    <ul class="contact">
+      <li><a href="tel:+420739265838">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +420 739 265 838</a></li>
+      <li><a href="mailto:lukas.razim@icloud.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+        lukas.razim@icloud.com
+        <button type="button" data-copy="lukas.razim@icloud.com" aria-label="Copy email">Copy</button></a></li>
+      <li><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Prague, Czechia</span></li>
+      <li><a href="https://www.linkedin.com/in/lukasrazim" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/lukasrazim</a></li>
+    </ul>
+
+    <h3>Skills</h3>
+    <div class="chips">
+      <span class="chip">Salesforce Development</span>
+      <span class="chip">Solution Design</span>
+      <span class="chip">Business &amp; Requirement Analysis</span>
+      <span class="chip">Data Transformation &amp; Migration</span>
+      <span class="chip">Agile / Scrum Delivery</span>
+      <span class="chip">Stakeholder Management</span>
+    </div>
+
+    <h3>Certifications</h3>
+    <details class="cert-group" open>
+      <summary>Salesforce <span class="count">6</span></summary>
+      <ul>
+        <li>Platform Administrator</li>
+        <li>Platform App Builder</li>
+        <li>Agentforce Sales Consultant</li>
+        <li>Agentforce Service Consultant</li>
+        <li>Data 360 Consultant</li>
+        <li>Accredited Public Sector Professional</li>
+      </ul>
+    </details>
+    <details class="cert-group" open>
+      <summary>Marketing Cloud <span class="count">2</span></summary>
+      <ul>
+        <li>Account Engagement Consultant</li>
+        <li>Account Engagement Specialist</li>
+      </ul>
+    </details>
+    <details class="cert-group" open>
+      <summary>Anthropic <span class="count">2</span></summary>
+      <ul>
+        <li>Claude Certified Associate</li>
+        <li>Claude Certified Developer</li>
+      </ul>
+    </details>
+
+    <h3>Languages</h3>
+    <div class="lang"><span>Czech</span><span>Native</span></div>
+    <div class="bar"><i data-w="100%"></i></div>
+    <div class="lang"><span>English</span><span>Advanced</span></div>
+    <div class="bar"><i data-w="85%"></i></div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+    <header class="reveal">
+      <span class="eyebrow">Available for new challenges</span>
+      <h1>Lukáš Razim</h1>
+      <p class="role"><span id="typed">Salesforce Consultant</span><span class="cursor"></span></p>
+      <p class="summary">
+        Highly experienced Salesforce Consultant with <strong>10+ years</strong> leading full-lifecycle
+        implementations across <strong>Sales, Service and Experience Cloud</strong>, combining hands-on
+        configuration with solution design and stakeholder management. I translate complex business
+        requirements into scalable, well-architected Salesforce solutions that drive measurable business value.
+      </p>
+      <div class="stats">
+        <div class="stat"><b data-count="10" data-suffix="+">0</b><span>Years in Salesforce</span></div>
+        <div class="stat"><b data-count="10">0</b><span>Certifications</span></div>
+        <div class="stat"><b data-count="1200" data-suffix="+">0</b><span>Users supported</span></div>
+        <div class="stat"><b data-count="6">0</b><span>Dreamins organized</span></div>
+      </div>
+    </header>
+
+    <section id="experience">
+      <h2 class="reveal">Work experience</h2>
+
+      <article class="job reveal">
+        <div class="job-head">
+          <div>
+            <h4>Salesforce Consultant</h4>
+            <div class="org">PwC · Prague</div>
+          </div>
+          <span class="dates">2015 – Present</span>
+        </div>
+        <p>Full-lifecycle Salesforce delivery across eight industries — from discovery and solution design through configuration, integration and UAT. Click a project to see details.</p>
+
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="sales">Sales Cloud</button>
+          <button class="filter" data-filter="service">Service Cloud</button>
+          <button class="filter" data-filter="experience">Experience Cloud</button>
+          <button class="filter" data-filter="marketing">Marketing / Pardot</button>
+          <button class="filter" data-filter="industry">Industry Clouds</button>
+        </div>
+
+        <div class="projects">
+          <div class="project" data-tags="industry">
+            <div class="top"><div class="ico">🛡️</div><div>
+              <h5>Enterprise Resilience</h5>
+              <p class="lead">Multiple Fusion implementations</p></div></div>
+            <div class="more"><div>
+              <p>Delivered multiple Fusion implementations — a Salesforce-native Enterprise Resilience Decision System connecting operations, dependencies and response teams.</p>
+              <div class="tags"><span>Fusion</span><span>Salesforce Platform</span><span>Resilience</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="sales service industry marketing">
+            <div class="top"><div class="ico">⚙️</div><div>
+              <h5>Manufacturing &amp; Engineering</h5>
+              <p class="lead">Led CRM &amp; Manufacturing Cloud transformation</p></div></div>
+            <div class="more"><div>
+              <p>Led Salesforce CRM and Manufacturing Cloud transformation with Pardot automation, optimising sales and service processes.</p>
+              <div class="tags"><span>Manufacturing Cloud</span><span>Pardot</span><span>Sales</span><span>Service</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="service experience">
+            <div class="top"><div class="ico">🏛️</div><div>
+              <h5>Education Sector (UK Government)</h5>
+              <p class="lead">Experience Cloud under GDS / WCAG 2.2</p></div></div>
+            <div class="more"><div>
+              <p>Modernised customer service with cloud-based CRM and delivered a Salesforce Experience Cloud implementation under GDS / WCAG 2.2 standards.</p>
+              <div class="tags"><span>Experience Cloud</span><span>GDS</span><span>WCAG 2.2</span><span>Public Sector</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="sales marketing industry">
+            <div class="top"><div class="ico">🚗</div><div>
+              <h5>Automotive &amp; Financial Services</h5>
+              <p class="lead">Sales, Marketing &amp; Asset Cloud end-to-end</p></div></div>
+            <div class="more"><div>
+              <p>Supported end-to-end implementation of Salesforce Sales, Marketing and Asset Cloud from requirements through UAT.</p>
+              <div class="tags"><span>Sales Cloud</span><span>Marketing Cloud</span><span>Asset Cloud</span><span>UAT</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="sales service experience">
+            <div class="top"><div class="ico">🎓</div><div>
+              <h5>Higher Education</h5>
+              <p class="lead">Student journeys &amp; Einstein Chatbot</p></div></div>
+            <div class="more"><div>
+              <p>Redesigned back-office processes and student journeys via Salesforce Sales, Service and Community Cloud, including Einstein Chatbot integration.</p>
+              <div class="tags"><span>Community Cloud</span><span>Einstein Bot</span><span>Sales</span><span>Service</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="sales service">
+            <div class="top"><div class="ico">💊</div><div>
+              <h5>Pharmaceutical &amp; Healthcare</h5>
+              <p class="lead">5 business units, global distributor</p></div></div>
+            <div class="more"><div>
+              <p>Implemented Salesforce across 5 business units for a global pharma distributor, automating the supply chain.</p>
+              <div class="tags"><span>Multi-BU rollout</span><span>Supply Chain</span><span>Automation</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="sales service">
+            <div class="top"><div class="ico">🌱</div><div>
+              <h5>Global FMCG (Plant-Based Foods)</h5>
+              <p class="lead">Sales / Service Cloud with Ivy Mobility</p></div></div>
+            <div class="more"><div>
+              <p>Configured Salesforce Sales / Service Cloud using Salesforce DX and Ivy Mobility integration for a global food producer.</p>
+              <div class="tags"><span>Salesforce DX</span><span>Ivy Mobility</span><span>Integration</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+
+          <div class="project" data-tags="service">
+            <div class="top"><div class="ico">✈️</div><div>
+              <h5>Business Aviation</h5>
+              <p class="lead">Maintenance &amp; charter workflows</p></div></div>
+            <div class="more"><div>
+              <p>Supported a Salesforce implementation managing aircraft maintenance and charter service workflows, driving digital transformation.</p>
+              <div class="tags"><span>Workflow Automation</span><span>Digital Transformation</span></div>
+            </div></div>
+            <span class="toggle">Show details +</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="job reveal">
+        <div class="job-head">
+          <div>
+            <h4>Salesforce Admin</h4>
+            <div class="org">Medtronic · Prague</div>
+          </div>
+          <span class="dates">2014 – 2015</span>
+        </div>
+        <p>Provided first-level administration and support for <b>1,200+ users</b> across EU countries, managing end-user cases, system customisation (UI, business logic, data model), and building SOQL/SOSL-based reports and dashboards.</p>
+      </article>
+    </section>
+
+    <section id="education">
+      <h2 class="reveal">Education</h2>
+      <div class="edu">
+        <div class="edu-card reveal">
+          <div>
+            <h4>Ing. – Business Administration (MBA)</h4>
+            <p>Czech University of Life Sciences Prague</p>
+          </div>
+          <span class="dates">2011 – 2015</span>
+        </div>
+        <div class="edu-card reveal">
+          <div>
+            <h4>Economics and Management</h4>
+            <p>Czech University of Life Sciences Prague</p>
+          </div>
+          <span class="dates">2006 – 2011</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="community">
+      <h2 class="reveal">Community</h2>
+      <div class="community reveal">
+        <div class="big">☁️</div>
+        <div>
+          <h4>CzechDreamin – Co-founder &amp; Organizer</h4>
+          <p>Co-founded and organise CzechDreamin, the community-led Salesforce conference in the Czech Republic.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>© <span id="year"></span> Lukáš Razim</span>
+      <a href="resume-ats.html">View print-friendly resume →</a>
+    </footer>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+
+  // Theme toggle (remembered per browser)
+  try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Toast + copy email
+  var toast = document.getElementById('toast');
+  function showToast(msg) {
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(showToast.t); showToast.t = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+  }
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      navigator.clipboard.writeText(b.dataset.copy).then(function () { showToast('Email copied to clipboard'); });
+    });
+  });
+
+  // Scroll progress
+  var bar = document.getElementById('progress');
+  addEventListener('scroll', function () {
+    var h = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+  }, { passive: true });
+
+  // Typed role line
+  var roles = ['Salesforce Consultant', 'Solution Designer', 'AI Enthusiast', 'CzechDreamin Co-founder'];
+  var el = document.getElementById('typed'), ri = 0, ci = roles[0].length, deleting = true;
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setTimeout(function tick() {
+      var word = roles[ri];
+      ci += deleting ? -1 : 1;
+      el.textContent = word.slice(0, ci);
+      var delay = deleting ? 35 : 70;
+      if (!deleting && ci === word.length) { deleting = true; delay = 2200; }
+      else if (deleting && ci === 0) { deleting = false; ri = (ri + 1) % roles.length; word = roles[ri]; delay = 300; }
+      setTimeout(tick, delay);
+    }, 2500);
+  }
+
+  // Counters
+  function countUp(b) {
+    var target = +b.dataset.count, suffix = b.dataset.suffix || '', start = performance.now();
+    (function step(now) {
+      var p = Math.min((now - start) / 1200, 1), v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      b.textContent = v.toLocaleString('en-US') + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  // Reveal on scroll
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      en.target.querySelectorAll('[data-count]').forEach(countUp);
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (n) { io.observe(n); });
+
+  // Language bars
+  setTimeout(function () {
+    document.querySelectorAll('.bar i').forEach(function (i) { i.style.width = i.dataset.w; });
+  }, 300);
+
+  // Project cards: expand + filter
+  document.querySelectorAll('.project').forEach(function (p) {
+    p.setAttribute('tabindex', '0');
+    function toggle() {
+      p.classList.toggle('open');
+      p.querySelector('.toggle').textContent = p.classList.contains('open') ? 'Hide details –' : 'Show details +';
+    }
+    p.addEventListener('click', toggle);
+    p.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+  document.querySelectorAll('.filter').forEach(function (f) {
+    f.addEventListener('click', function () {
+      document.querySelectorAll('.filter').forEach(function (x) { x.classList.remove('active'); });
+      f.classList.add('active');
+      var tag = f.dataset.filter;
+      document.querySelectorAll('.project').forEach(function (p) {
+        p.classList.toggle('hidden', tag !== 'all' && p.dataset.tags.split(' ').indexOf(tag) < 0);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
